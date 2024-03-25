@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "ddd-blog"
+version = "0.1.0"
+description = ""
+authors = ["ac2393921 <ac2393921@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+black = "^24.3.0"
+flake8 = "^7.0.0"
+isort = "^5.13.2"
+fastapi = "^0.110.0"
+
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
