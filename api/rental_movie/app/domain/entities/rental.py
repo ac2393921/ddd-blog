@@ -1,0 +1,51 @@
+from typing import List, Optional
+
+from app.domain.entities.entity import Entity
+from app.domain.exception.domain_exception import DomainException
+from app.domain.value_objects.rental.fee import Fee
+from app.domain.value_objects.rental.movie_id import MovieId
+from app.domain.value_objects.rental.rental_id import RentalId
+from app.domain.value_objects.rental.rental_status import RentalStatus, RentalStatusType
+from app.domain.value_objects.rental.user_id import UserId
+
+
+class Rental(Entity):
+    """レンタルエンティティ"""
+
+    rental_id: RentalId
+    user_id: UserId
+    movie_id_list: List[MovieId]
+    return_due_date: str
+    return_date: Optional[str]
+    rental_status: RentalStatus
+    fee: Fee
+
+    def get_rental_id(self) -> RentalId:
+        return self.rental_id
+
+    def get_movie_id_list(self) -> List[MovieId]:
+        return self.movie_id_list
+
+    def get_return_due_date(self) -> str:
+        return self.return_due_date
+
+    def get_return_date(self) -> str:
+        if self.return_date is None:
+            raise DomainException("まだ返却されていません。")
+        return self.return_date
+
+    def get_fee(self) -> Fee:
+        return self.fee
+
+    def is_return(self) -> bool:
+        return self.rental_status.value == RentalStatusType.RETURNED
+
+    @classmethod
+    def create(cls, rental_id: str, return_due_date: str, fee: int) -> "Rental":
+        return Rental(
+            rental_id=RentalId(value=rental_id),
+            return_due_date=return_due_date,
+            return_date=None,
+            rental_status=RentalStatus.create(),
+            fee=Fee(value=fee),
+        )
