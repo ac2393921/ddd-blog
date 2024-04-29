@@ -16,6 +16,28 @@ services:
       - db
     command: ["uvicorn", "app.main:app", "--reload", "--host", "0.0.0.0", "--port", "3000"]
 
+  migrations:
+    build:
+      context: ./migrations
+      dockerfile: docker/Dockerfile
+      target: develop
+    volumes:
+      - ./migrations:/src
+    working_dir: "/src"
+    tty: true
+    # ports: 
+    #   - "3000:3000"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: movie
+      MYSQL_DATABASE: movie
+      MYSQL_USER: movie
+      MYSQL_PASSWORD: movie
+      MYSQL_HOST: db
+    depends_on:
+      - db
+    # command: ["uvicorn", "app.main:app", "--reload", "--host", "0.0.0.0", "--port", "3000"]
+
   db:
     image: mysql:8.0.27
     platform: linux/amd64
