@@ -1,15 +1,18 @@
-from app.database import Base
-from sqlalchemy import Column, String, Enum
-from sqlalchemy_utils import UUIDType
-from uuid import uuid4
-from app.models.mixins import TimestampMixin
 import enum
+from uuid import uuid4
+
+from app.database import Base
+from app.models.mixins import TimestampMixin
+from app.models.rental_movies import RentalMovie
+from sqlalchemy import Column, Enum, String
+from sqlalchemy.orm import relationship
+from sqlalchemy_utils import UUIDType
 
 
 class RentalType(enum.Enum):
-    NEW_RELEASE = "新作"
-    SEMI_NEW_RELEASE = "準新作"
-    OLD_RELEASE = "旧作"
+    NEW_RELEASE = "new"
+    SEMI_NEW_RELEASE = "semi_new"
+    OLD_RELEASE = "old"
 
 
 class Movie(Base, TimestampMixin):
@@ -19,3 +22,7 @@ class Movie(Base, TimestampMixin):
     id = Column(UUIDType(binary=False), primary_key=True, default=uuid4, comment="ID")
     title = Column(String(255), nullable=False, comment="タイトル")
     rental_type = Column(Enum(RentalType), nullable=False, comment="レンタルタイプ")
+
+    rentals = relationship(
+        "Rental", secondary=RentalMovie.__tablename__, back_populates="movies"
+    )
