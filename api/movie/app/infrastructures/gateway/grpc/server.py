@@ -1,6 +1,7 @@
 from concurrent import futures
 
 import grpc
+from app.intarfaces.controllers.movie_controller import MovieController
 from grpc_reflection.v1alpha import reflection
 
 from .pb import movie_pb2, movie_pb2_grpc
@@ -8,13 +9,13 @@ from .pb import movie_pb2, movie_pb2_grpc
 
 # レスポンスの処理
 class MovieService(movie_pb2_grpc.MovieServiceServicer):
-    def GetByIds(self, request, context):
-        movies = [
-            {"id": "111", "title": "movie1", "rental_type": "new"},
-            {"id": "222", "title": "movie2", "rental_type": "old"},
-        ]
+    def __init__(self, movie_controller: MovieController):
+        self._movie_controller = movie_controller
 
-        for movie in movies:
+    def GetByIds(self, request, context):
+        response = self._movie_controller.get_movies_by_ids(movie_ids=request.movie_ids)
+
+        for movie in response.movies:
             yield movie_pb2.Movie(
                 id=str(movie["id"]),
                 title=movie["title"],
@@ -27,12 +28,15 @@ class MovieService(movie_pb2_grpc.MovieServiceServicer):
 
 
 class GrpcServer:
-    def __init__(self):
+    def __init__(self, movie_controller: MovieController):
         self._port: str = "3001"
         self._server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+        self._movie_controller = movie_controller
 
     def run(self) -> None:
-        movie_pb2_grpc.add_MovieServiceServicer_to_server(MovieService(), self._server)
+        movie_pb2_grpc.add_MovieServiceServicer_to_server(
+            MovieService(movie_controller=self._movie_controller), self._server
+        )
 
         SERVICE_NAMES = (
             movie_pb2.DESCRIPTOR.services_by_name["MovieService"].full_name,

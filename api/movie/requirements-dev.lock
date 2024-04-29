@@ -8,6 +8,10 @@
 #   with-sources: false
 
 -e file:.
+annotated-types==0.6.0
+    # via pydantic
+exceptiongroup==1.2.1
+    # via pytest
 grpcio==1.62.2
     # via grpcio-reflection
     # via grpcio-tools
@@ -16,8 +20,28 @@ grpcio-reflection==1.62.2
     # via movie
 grpcio-tools==1.62.2
     # via movie
+iniconfig==2.0.0
+    # via pytest
+packaging==24.0
+    # via pytest
+pluggy==1.5.0
+    # via pytest
 protobuf==4.25.3
     # via grpcio-reflection
     # via grpcio-tools
+pydantic==2.7.1
+    # via movie
+pydantic-core==2.18.2
+    # via pydantic
+pytest==8.2.0
+    # via movie
+    # via pytest-mock
+pytest-mock==3.14.0
+    # via movie
+tomli==2.0.1
+    # via pytest
+typing-extensions==4.11.0
+    # via pydantic
+    # via pydantic-core
 setuptools==69.5.1
     # via grpcio-tools
