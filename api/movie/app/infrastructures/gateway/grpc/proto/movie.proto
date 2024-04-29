@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package movie_service;
+
+service MovieService {
+  rpc GetByIds(GetByIdsRequest) returns (stream Movie);
+  rpc GetById(GetByIdRequest) returns (Movie);
+}
+
+message Movie {
+  string id = 1;
+  string title = 2;
+  string rental_type = 3;
+}
+
+message GetByIdsRequest {
+  repeated int32 movie_ids = 1;
+}
+
+message GetByIdRequest {
+  int32 movie_id = 1;
+}

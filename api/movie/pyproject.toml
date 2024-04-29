@@ -1,0 +1,28 @@
+[project]
+name = "movie"
+version = "0.1.0"
+description = "Add your description here"
+authors = [
+    { name = "ac2393921", email = "ac2393921@gmail.com" }
+]
+dependencies = [
+    "grpcio>=1.62.2",
+    "grpcio-tools>=1.62.2",
+    "grpcio-reflection>=1.62.2",
+]
+readme = "README.md"
+requires-python = ">= 3.9"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = []
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/movie"]
