@@ -14,9 +14,9 @@ message Movie {
 }
 
 message GetByIdsRequest {
-  repeated int32 movie_ids = 1;
+  repeated string movie_ids = 1;
 }
 
 message GetByIdRequest {
-  int32 movie_id = 1;
+  string movie_id = 1;
 }

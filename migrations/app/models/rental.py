@@ -1,11 +1,12 @@
+import enum
+from uuid import uuid4
+
 from app.database import Base
+from app.models.mixins import TimestampMixin
+from app.models.rental_movies import RentalMovie
 from sqlalchemy import Column, DateTime, Enum, Integer
 from sqlalchemy.orm import relationship
 from sqlalchemy_utils import UUIDType
-from uuid import uuid4
-from app.models.mixins import TimestampMixin
-import enum
-from app.models.rental_movies import RentalMovie
 
 
 class RentalStatusType(enum.Enum):
@@ -25,7 +26,6 @@ class Rental(Base, TimestampMixin):
     rental_status = Column(
         Enum(RentalStatusType), nullable=False, comment="レンタルステータス"
     )
-    fee = Column(Integer, nullable=False, comment="料金")
     movies = relationship(
         "Movie", secondary=RentalMovie.__tablename__, back_populates="rentals"
     )

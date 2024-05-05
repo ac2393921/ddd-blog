@@ -8,7 +8,7 @@ class MovieController:
     def __init__(self, movie_use_case_bus: MovieUseCaseBus):
         self._bus = movie_use_case_bus
 
-    def get_movies_by_ids(self, movie_ids: List[int]):
+    def get_movies_by_ids(self, movie_ids: List[str]):
         input = GetMoviesByIdsInputPort(movie_ids=movie_ids)
         response = self._bus.handle(input)
         return response

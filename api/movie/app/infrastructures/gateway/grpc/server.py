@@ -12,10 +12,11 @@ class MovieService(movie_pb2_grpc.MovieServiceServicer):
     def __init__(self, movie_controller: MovieController):
         self._movie_controller = movie_controller
 
-    def GetByIds(self, request, context):
+    def GetByIds(self, request: movie_pb2.GetByIdRequest, context) -> movie_pb2.Movie:
         response = self._movie_controller.get_movies_by_ids(movie_ids=request.movie_ids)
 
         for movie in response.movies:
+            print(movie)
             yield movie_pb2.Movie(
                 id=str(movie["id"]),
                 title=movie["title"],

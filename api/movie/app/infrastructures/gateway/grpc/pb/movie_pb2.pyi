@@ -18,11 +18,11 @@ class Movie(_message.Message):
 class GetByIdsRequest(_message.Message):
     __slots__ = ("movie_ids",)
     MOVIE_IDS_FIELD_NUMBER: _ClassVar[int]
-    movie_ids: _containers.RepeatedScalarFieldContainer[int]
-    def __init__(self, movie_ids: _Optional[_Iterable[int]] = ...) -> None: ...
+    movie_ids: _containers.RepeatedScalarFieldContainer[str]
+    def __init__(self, movie_ids: _Optional[_Iterable[str]] = ...) -> None: ...
 
 class GetByIdRequest(_message.Message):
     __slots__ = ("movie_id",)
     MOVIE_ID_FIELD_NUMBER: _ClassVar[int]
-    movie_id: int
-    def __init__(self, movie_id: _Optional[int] = ...) -> None: ...
+    movie_id: str
+    def __init__(self, movie_id: _Optional[str] = ...) -> None: ...

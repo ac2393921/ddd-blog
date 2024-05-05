@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0bmovie.proto\x12\rmovie_service\"7\n\x05Movie\x12\n\n\x02id\x18\x01 \x01(\t\x12\r\n\x05title\x18\x02 \x01(\t\x12\x13\n\x0brental_type\x18\x03 \x01(\t\"$\n\x0fGetByIdsRequest\x12\x11\n\tmovie_ids\x18\x01 \x03(\x05\"\"\n\x0eGetByIdRequest\x12\x10\n\x08movie_id\x18\x01 \x01(\x05\x32\x92\x01\n\x0cMovieService\x12\x42\n\x08GetByIds\x12\x1e.movie_service.GetByIdsRequest\x1a\x14.movie_service.Movie0\x01\x12>\n\x07GetById\x12\x1d.movie_service.GetByIdRequest\x1a\x14.movie_service.Movieb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0bmovie.proto\x12\rmovie_service\"7\n\x05Movie\x12\n\n\x02id\x18\x01 \x01(\t\x12\r\n\x05title\x18\x02 \x01(\t\x12\x13\n\x0brental_type\x18\x03 \x01(\t\"$\n\x0fGetByIdsRequest\x12\x11\n\tmovie_ids\x18\x01 \x03(\t\"\"\n\x0eGetByIdRequest\x12\x10\n\x08movie_id\x18\x01 \x01(\t2\x92\x01\n\x0cMovieService\x12\x42\n\x08GetByIds\x12\x1e.movie_service.GetByIdsRequest\x1a\x14.movie_service.Movie0\x01\x12>\n\x07GetById\x12\x1d.movie_service.GetByIdRequest\x1a\x14.movie_service.Movieb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
