@@ -10,39 +10,36 @@ ENV PYTHON_VERSHIN=python3.9 \
     PIP_DISABLE_PIP_VERSION_CHECK=on \
     PIP_DEFAULT_TIMEOUT=100 \
     \
-    # poetry
-    # https://python-poetry.org/docs/configuration/#using-environment-variables
-    POETRY_VERSION=1.2.0 \
-    # make poetry install to this location
-    POETRY_HOME="/opt/poetry" \
-    # make poetry create the virtual environment in the project's root
-    # it gets named `.venv`
-    POETRY_VIRTUALENVS_IN_PROJECT=true \
-    # do not ask any interactive question
-    POETRY_NO_INTERACTION=1 \
-    \
+    # make rye install to this location
+    RYE_HOME="/home/.rye" \
     # paths
     # this is where our requirements + virtual environment will live
     PYSETUP_PATH="/opt/pysetup" \
     VENV_PATH="/opt/pysetup/.venv"
 
-# prepend poetry and venv to path
-ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
+# prepend rye and venv to path
+ENV PATH ${RYE_HOME}/shims:$VENV_PATH/bin:$PATH
 
 FROM python-base as builder-base
 RUN apt-get update \
     && apt-get install --no-install-recommends -y \
-    # deps for installing poetry
+    # deps for installing rye
     curl \
     # deps for building python deps
     build-essential \
     gcc libmariadb-dev
 
-RUN curl -sSL https://install.python-poetry.org | python3 -
+RUN curl -sSf https://rye-up.com/get | RYE_NO_AUTO_INSTALL=1 RYE_INSTALL_OPTION="--yes" bash
 
 WORKDIR $PYSETUP_PATH
-COPY pyproject.toml poetry.lock ./
-RUN poetry install
+COPY pyproject.toml requirements.lock requirements-dev.lock ./
+
+RUN --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    --mount=type=bind,source=requirements.lock,target=requirements.lock \
+    --mount=type=bind,source=requirements-dev.lock,target=requirements-dev.lock \
+    --mount=type=bind,source=.python-version,target=.python-version\
+    --mount=type=bind,source=README.md,target=README.md \
+    rye sync --no-lock
 
 ENV PYTHONPATH /src
 

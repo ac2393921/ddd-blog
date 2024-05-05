@@ -12,19 +12,22 @@ class RentalMoviesInteractor(RentalMoviesUseCase):
         self,
         rental_repository: IRentalRepository,
         movie_service: IMovieService,
+        # user_service,
     ):
         self._rental_repository = rental_repository
         self._rental_service = RentalService(rental_repository=rental_repository)
         self._movie_service = movie_service
+        # self._user_service = user_service
         self._movie_factory = RentalFactory(
             rental_repository=rental_repository, movie_service=movie_service
         )
 
     def handle(self, input_port: RentalMoviesInputPort) -> RentalMoviesOutputPort:
         # ユーザーの会員ステータスをチェック
+        # self._user_service.check_user_status(user_id)
 
         # レンタル可能本数を超えていないかチェック
-        self._rental_service.check_rental_limit_exceeded(user_id=input_port.user_id)
+        # self._rental_service.check_rental_limit_exceeded(user_id=input_port.user_id)
 
         movies = self._movie_service.fetch_by_ids(input_port.movie_id_list)
         rental = self._movie_factory.create(
@@ -34,5 +37,5 @@ class RentalMoviesInteractor(RentalMoviesUseCase):
         self._rental_repository.save(rental)
 
         return RentalMoviesOutputPort(
-            movie_id=input_port.movie_id, user_id=input_port.user_id
+            rental_id=rental.get_rental_id().value,
         )

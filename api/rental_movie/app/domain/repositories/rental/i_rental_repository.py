@@ -6,5 +6,5 @@ from app.domain.entities.rental import Rental
 
 class IRentalRepository(ABC):
     @abstractmethod
-    def fetch_by_user_id(self, user_id: int) -> List[Rental]:
+    def save(self, rental: Rental) -> None:
         raise NotImplementedError
